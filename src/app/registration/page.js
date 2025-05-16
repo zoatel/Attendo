@@ -6,7 +6,7 @@ import Logo from "@/components/Logo";
 import SignBtn from "@/components/SignBtn";
 import { useRouter } from "next/navigation";
 
-export default function Login() {
+export default function Registration() {
   const router = useRouter();
 
   // Handlers
@@ -38,17 +38,17 @@ export default function Login() {
               autocomplete="current-password"
               placeholder="Password"
             />
-            <SignBtn title="sign in" />
+            <SignBtn title="sign up" />
           </form>
           <div>
             <div className="border border-neutral-200 mt-8 "></div>
             <div className="text-center mt-4  text-gray-600">
-              Don't have an account?
+              Already have an account?
               <span
                 className="ml-1 text-gray-500 hover:text-gray-800 cursor-pointer transition-3d"
-                onClick={() => goToRouterHandler("/registration")}
+                onClick={() => goToRouterHandler("/")}
               >
-                Sign Up
+                Sign In
               </span>
             </div>
           </div>

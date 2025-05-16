@@ -27,7 +27,7 @@ export default function Registration() {
             <Input
               htmlfor="fullname"
               title="Full Name"
-              id="fullname"
+              id="text"
               autocomplete="fullname"
               placeholder="Full Name"
             />

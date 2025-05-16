@@ -16,7 +16,7 @@ export default function Batches({}) {
     <div className="w-full">
       <div
         onClick={() => goToRouterHandler("/batches")}
-        className={`flex justify-between items-center px-8 py-2 text-xl font-medium bg-gray-50 text-gray-600  cursor-pointer transition-3d`}
+        className={`flex justify-between items-center px-8 py-2 text-xl font-medium bg-gray-50 text-gray-600  cursor-pointer transition-3d hover:bg-gray-100 hover:text-indigo-600`}
       >
         <span>Batches</span>
       </div>

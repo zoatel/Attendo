@@ -22,7 +22,7 @@ export default function Courses({}) {
           !showCourses
             ? "bg-gray-50 text-gray-600"
             : "bg-gray-100 text-indigo-600"
-        }  cursor-pointer transition-3d`}
+        }  cursor-pointer transition-3d hover:bg-gray-100 hover:text-indigo-600`}
       >
         <span>Courses</span>
         {showCourses ? <ChevronUp size={20} /> : <ChevronDown size={20} />}

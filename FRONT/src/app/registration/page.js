@@ -25,6 +25,13 @@ export default function Registration() {
           <form className="mt-12 space-y-6" action="#" method="POST">
             <div className="rounded-md shadow-sm -space-y-px"></div>
             <Input
+              htmlfor="fullname"
+              title="Full Name"
+              id="fullname"
+              autocomplete="fullname"
+              placeholder="Full Name"
+            />
+            <Input
               htmlfor="email-address"
               title="Email address"
               id="email"

@@ -1,0 +1,19 @@
+{
+  "batches": {
+    "gGN83AmdnRN0wowHM3DC": {
+      "title": "aa",
+      "id": "aa"
+    }
+  },
+  "courses": {
+    "8truJKDZfb3W5iFAwH2M": {
+      "title": "bb",
+      "batch": "aa",
+      "classroom": "aa",
+      "image": "aa"
+    }
+  },
+  "instructors": {
+    "QjKlLvT3pJXsXHtoUnOv": {}
+  }
+}

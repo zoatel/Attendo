@@ -38,7 +38,7 @@ const SessionList = ({
       {activeSessions.map((session) => (
         <div
           key={session.id}
-          className="w-56 h-18 bg-white border border-green-400 rounded-lg flex items-center justify-center shadow text-lg font-semibold cursor-pointer hover:bg-green-50 transition"
+          className="w-56 h-18 bg-green-50 border-2  text-lg font-semibold text-green-400 hover:text-green-700 border-green-200 rounded-2xl flex flex-col items-center justify-center shadow shadow-green-200 cursor-pointer  hover:bg-green-100 hover:border-green-300 transition-3d"
           onClick={() => setActiveSession(session)}
         >
           {session.title}

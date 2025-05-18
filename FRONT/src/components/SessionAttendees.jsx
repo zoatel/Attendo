@@ -14,25 +14,35 @@ const SessionAttendees = ({
     <div className=" rounded-xl w-full h-[700px] shadow p-16 bg-white  mt-10">
       <div className="flex justify-between items-center mb-6">
         <div className="text-3xl font-bold">Attendees</div>
-        <button
-          onClick={downloadCSV}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2"
-          disabled={downloadingSession}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+        <div className="flex justify-center items-center gap-5">
+          <button
+            onClick={downloadCSV}
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2"
+            disabled={downloadingSession}
           >
-            <path
-              fillRule="evenodd"
-              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-          {downloadingSession ? "Downloading…" : "Download CSV"}
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {downloadingSession ? "Downloading…" : "Download CSV"}
+          </button>
+          {activeSession.active && (
+            <button
+              className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition"
+              onClick={handleEndSession}
+            >
+              End Session
+            </button>
+          )}
+        </div>
       </div>
       <div className="mb-4 flex flex-row justify-between">
         <div className="text-gray-700 text-sm">
@@ -50,48 +60,6 @@ const SessionAttendees = ({
         <div>Loading attendees...</div>
       ) : (
         <>
-          {/* <div className="overflow-x-auto rounded-lg border border-gray-200">
-            <table className="min-w-full divide-y divide-gray-200 bg-white">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300"></th>
-                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300">
-                    UID
-                  </th>
-                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300">
-                    Name
-                  </th>
-                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300">
-                    MAC
-                  </th>
-                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider">
-                    Recorded At
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {attendees.map((att, idx) => (
-                  <tr key={att.UID} className="hover:bg-gray-100 transition-3d">
-                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
-                      {idx + 1}
-                    </td>
-                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
-                      {att.UID}
-                    </td>
-                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
-                      {att.name}
-                    </td>
-                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
-                      {att.MAC}
-                    </td>
-                    <td className="px-6 py-3 text-center text-md text-gray-500">
-                      {att.recordedAt}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
           <div className="overflow-hidden rounded-lg border border-gray-200">
             <div className="max-h-[400px] overflow-y-auto">
               <table className="min-w-full table-fixed divide-y divide-gray-200 bg-white">
@@ -137,16 +105,6 @@ const SessionAttendees = ({
             </div>
           </div>
         </>
-      )}
-      {activeSession.active && (
-        <div className="flex justify-end mt-8">
-          <button
-            className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition"
-            onClick={handleEndSession}
-          >
-            End Session
-          </button>
-        </div>
       )}
     </div>
   </>

@@ -25,6 +25,7 @@ import SessionAttendees from "../components/SessionAttendees";
 import AddCourseModal from "../components/AddCourseModal";
 import AddBatchModal from "../components/AddBatchModal";
 import AddSessionModal from "../components/AddSessionModal";
+import DeleteCourseModal from "../components/DeleteCourseModal";
 import Alert from "../components/Alert";
 
 // API base URL constant
@@ -40,6 +41,7 @@ const Home = () => {
   const [toggleShowCourses, setToggleShowCourses] = useState(false);
   const [sessions, setSessions] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [showSessionModal, setShowSessionModal] = useState(false);
   const [form, setForm] = useState({
     title: "",
@@ -823,6 +825,7 @@ const Home = () => {
                   allClassrooms={allClassrooms}
                   setActiveCourse={setActiveCourse}
                   setShowModal={setShowModal}
+                  setDeleteModal={setDeleteModal}
                 />
               </>
             )}
@@ -856,6 +859,11 @@ const Home = () => {
           batchForm={batchForm}
           onInputChange={handleBatchInputChange}
           loading={loading}
+        />
+        {/* Delete Course Modal */}
+        <DeleteCourseModal
+          show={deleteModal}
+          onClose={() => setDeleteModal(false)}
         />
       </div>
       {alert && <Alert type={alert.type} message={alert.message} />}

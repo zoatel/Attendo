@@ -1,1 +1,155 @@
 @import "tailwindcss";
+/* أنيميشن لف حركة float عادية */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* حركة float (6 ثواني) */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+/* أنيميشن لف حركة float عادية */
+@keyframes hfloat {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-40px);
+  }
+}
+
+/* حركة float (6 ثواني) */
+.animate-float-horizontal {
+  animation: hfloat 6s ease-in-out infinite;
+}
+/* أنيميشن لف حركة float عادية */
+@keyframes thfloat {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+}
+
+/* حركة float (6 ثواني) */
+.animate-float-top-horizontal {
+  animation: thfloat 7s ease-in-out infinite;
+}
+
+/* حركة float بطيئة (10 ثواني) */
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 10s ease-in-out infinite;
+}
+
+@keyframes tfloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* حركة float (6 ثواني) */
+.animate-float-top {
+  animation: tfloat 6s ease-in-out infinite;
+}
+/* حركة دوران بطيئة */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 8s linear infinite;
+}
+
+/* حركة FadeIn بسيطة */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 2s ease-in forwards;
+}
+
+.hexagon {
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+}
+
+.pentagon {
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+@layer base {
+  /* viewport heights */
+  .h-9vh {
+    height: 90vh;
+  }
+  .h-85vh {
+    height: 85vh;
+  }
+
+  /* ------------------------------------------------------------------------------- */
+
+  /* border width */
+  .border-b-1 {
+    border-bottom-width: 1px;
+  }
+
+  /* ------------------------------------------------------------------------------- */
+
+  /* primary colors */
+
+  .bg-clr-hall {
+    background-color: var(--background-hall);
+  }
+  .bg-clr {
+    background-color: var(--background-color);
+  }
+  .bg-secondary-clr {
+    background-color: var(--background-color-secondary);
+  }
+
+  .transition-3d {
+    transition: all 0.3s ease-in-out;
+  }
+  .transition-1d {
+    transition: all 0.1s ease-in-out;
+  }
+  .will-transform {
+    will-change: transform, opacity;
+  }
+  .rounded-full-boda {
+    border-radius: 70px;
+  }
+}

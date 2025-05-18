@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Logo from "../components/Logo";
+import BGHome from "../components/BGHome";
 import { useUser } from "../App";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
@@ -25,15 +25,19 @@ import SessionAttendees from "../components/SessionAttendees";
 import AddCourseModal from "../components/AddCourseModal";
 import AddBatchModal from "../components/AddBatchModal";
 import AddSessionModal from "../components/AddSessionModal";
+import Alert from "../components/Alert";
 
 // API base URL constant
 const API_BASE_URL = "http://localhost:3000";
 
 const Home = () => {
+  const [alert, setAlert] = useState(null);
+
   const user = useUser();
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [activeCourse, setActiveCourse] = useState(null);
+  const [toggleShowCourses, setToggleShowCourses] = useState(false);
   const [sessions, setSessions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showSessionModal, setShowSessionModal] = useState(false);
@@ -48,6 +52,7 @@ const Home = () => {
 
   // Batch management
   const [showBatches, setShowBatches] = useState(false);
+  const [toggleShowBatches, setToggleShowBatches] = useState(false);
   const [batches, setBatches] = useState([]);
   const [showBatchModal, setShowBatchModal] = useState(false);
   const [batchForm, setBatchForm] = useState({ title: "" });
@@ -190,6 +195,7 @@ const Home = () => {
       setBatches(batchList);
     };
     fetchBatches();
+    console.log(batches);
   }, [showBatches, showBatchModal]);
 
   // Fetch students for the active batch
@@ -288,6 +294,13 @@ const Home = () => {
     return () => unsubscribe();
   }, [activeSession, activeCourse]);
 
+  useEffect(() => {
+    if (alert) {
+      const timer = setTimeout(() => setAlert(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
+
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/");
@@ -316,7 +329,10 @@ const Home = () => {
       setShowModal(false);
       setForm({ title: "", batch: "", classroom: "", image: "" });
     } catch (err) {
-      alert("Error adding course: " + err.message);
+      setAlert({
+        type: "error",
+        message: "Error adding course: " + err.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -349,11 +365,23 @@ const Home = () => {
             ? "Session created successfully"
             : "Failed to create session")
       );
+      setAlert({
+        type: data.success ? "success" : "error",
+        message:
+          data.message ||
+          (data.success
+            ? "Session created successfully"
+            : "Failed to create session"),
+      });
       setShowSessionModal(false);
       setSessionForm({ title: "" });
       setSessionsRefresh((r) => r + 1);
     } catch (err) {
       alert("Error creating session: " + err.message);
+      setAlert({
+        type: "error",
+        message: "Error creating session: " + err.message,
+      });
     }
   };
 
@@ -369,7 +397,10 @@ const Home = () => {
       setShowBatchModal(false);
       setBatchForm({ title: "" });
     } catch (err) {
-      alert("Error adding batch: " + err.message);
+      setAlert({
+        type: "error",
+        message: "Error adding batch: " + err.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -378,11 +409,18 @@ const Home = () => {
   // Sidebar navigation
   const handleShowCourses = () => {
     setShowBatches(false);
+    setToggleShowCourses((toggleShowCourses) => !toggleShowCourses);
+    setToggleShowBatches(false);
     setActiveCourse(null);
+    setActiveBatch(null);
+    setActiveSession(null);
   };
   const handleShowBatches = () => {
     setShowBatches(true);
+    setToggleShowCourses(false);
+    setToggleShowBatches((toggleShowBatches) => !toggleShowBatches);
     setActiveCourse(null);
+    setActiveBatch(null);
   };
 
   // Add student to batch
@@ -409,7 +447,10 @@ const Home = () => {
         }
       }
       if (uidExists) {
-        alert("A student with this UID already exists in another batch.");
+        setAlert({
+          type: "warning",
+          message: "A student with this UID already exists in another batch.",
+        });
         setStudentLoading(false);
         return;
       }
@@ -424,7 +465,10 @@ const Home = () => {
       );
       setStudentForm({ name: "", UID: "" });
     } catch (err) {
-      alert("Error adding student: " + err.message);
+      setAlert({
+        type: "error",
+        message: "Error adding student: " + err.message,
+      });
     } finally {
       setStudentLoading(false);
     }
@@ -435,7 +479,10 @@ const Home = () => {
     try {
       await deleteDoc(doc(db, `batches/${activeBatch.id}/students/${uid}`));
     } catch (err) {
-      alert("Error deleting student: " + err.message);
+      setAlert({
+        type: "error",
+        message: "Error deleting student: " + err.message,
+      });
     } finally {
       setStudentLoading(false);
     }
@@ -450,7 +497,10 @@ const Home = () => {
     );
     const nodeID = classroomObj ? classroomObj.nodeID : null;
     if (!nodeID) {
-      alert("Node ID not found for this classroom.");
+      setAlert({
+        type: "error",
+        message: "Node ID not found for this classroom.",
+      });
       return;
     }
     try {
@@ -460,12 +510,15 @@ const Home = () => {
         body: JSON.stringify({ nodeID, sessionId: activeSession.id }),
       });
       const data = await response.json();
-      alert(
-        data.message ||
+      setAlert({
+        type: data.success ? "success" : "error",
+        message:
+          data.message ||
           (data.success
             ? "Session ended successfully"
-            : "Failed to end session")
-      );
+            : "Failed to end session"),
+      });
+
       setSessionsRefresh((r) => r + 1); // Refresh sessions list
       // Fetch updated session document and update activeSession
       const updatedSessionDoc = await getDoc(
@@ -478,7 +531,10 @@ const Home = () => {
         });
       }
     } catch (err) {
-      alert("Error ending session: " + err.message);
+      setAlert({
+        type: "error",
+        message: "Error ending session: " + err.message,
+      });
     }
   };
 
@@ -624,32 +680,54 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full h-screen flex bg-[#f5f6fb]">
+    <div className="relative w-full h-screen flex  bg-[#f5f6fb]">
+      {/* <BGHome /> */}
+
       {/* Sidebar */}
       <Sidebar
         user={user}
         onShowCourses={handleShowCourses}
         onShowBatches={handleShowBatches}
         showBatches={showBatches}
+        toggleShowBatches={toggleShowBatches}
+        toggleShowCourses={toggleShowCourses}
         courses={courses}
         activeCourse={activeCourse}
         setActiveCourse={setActiveCourse}
+        batches={batches}
+        activeBatch={activeBatch}
+        setActiveBatch={setActiveBatch}
         handleLogout={handleLogout}
+        setActiveSession={setActiveSession}
       />
       {/* Main Content */}
-      <div className="flex-1 p-10">
+      <div className="flex-1 p-20 h-screen">
         {/* Batches View */}
         {showBatches ? (
           <>
-            <div className="text-3xl font-black mb-8">Batches</div>
+            <div className="text-gray-400 text-lg font-medium mb-2">
+              {activeBatch && (
+                <>
+                  <span
+                    className="hover:underline cursor-pointer capitalize"
+                    onClick={() => {
+                      setActiveBatch(null);
+                    }}
+                  >
+                    Batches
+                  </span>{" "}
+                  <span>&gt;&gt;</span>{" "}
+                  <span className="hover:underline cursor-pointer capitalize">
+                    {activeBatch.title}
+                  </span>
+                </>
+              )}
+            </div>
+            <div className="text-4xl font-black mb-2 ">
+              {activeBatch ? activeBatch.title : "Select a Batch"}
+            </div>
             {activeBatch ? (
               <>
-                <button
-                  className="mb-6 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-gray-700 transition"
-                  onClick={() => setActiveBatch(null)}
-                >
-                  ← Back to Batches
-                </button>
                 <StudentList
                   students={students}
                   studentForm={studentForm}
@@ -660,47 +738,75 @@ const Home = () => {
                 />
               </>
             ) : (
-              <BatchList
-                batches={batches}
-                setActiveBatch={setActiveBatch}
-                setShowBatchModal={setShowBatchModal}
-                showBatchModal={showBatchModal}
-                batchForm={batchForm}
-                handleBatchInputChange={handleBatchInputChange}
-                handleAddBatch={handleAddBatch}
-                loading={loading}
-              />
+              <>
+                <div className="text-gray-400 text-xl mb-12">
+                  Please select a batch to view its Students.
+                </div>
+                <BatchList
+                  batches={batches}
+                  setActiveBatch={setActiveBatch}
+                  setShowBatchModal={setShowBatchModal}
+                  showBatchModal={showBatchModal}
+                  batchForm={batchForm}
+                  handleBatchInputChange={handleBatchInputChange}
+                  handleAddBatch={handleAddBatch}
+                  loading={loading}
+                />
+              </>
             )}
           </>
         ) : (
           <>
-            <div className="text-gray-400 text-sm mb-2">
+            <div className="text-gray-400 text-lg font-medium mb-2">
               {activeCourse && (
-                <span>Courses &gt;&gt; {activeCourse.title}</span>
+                <>
+                  <span
+                    className="hover:underline cursor-pointer capitalize"
+                    onClick={() => {
+                      setActiveCourse(null);
+                      setActiveSession(null);
+                    }}
+                  >
+                    Courses
+                  </span>{" "}
+                  <span>&gt;&gt;</span>{" "}
+                  <span
+                    className="hover:underline cursor-pointer capitalize"
+                    onClick={() => setActiveSession(null)}
+                  >
+                    {activeCourse.title}
+                  </span>{" "}
+                  <span>&gt;&gt;</span>{" "}
+                  {activeSession && (
+                    <span className="hover:underline cursor-pointer capitalize">
+                      {activeSession.title}
+                    </span>
+                  )}
+                </>
               )}
             </div>
-            <div className="text-3xl font-black mb-8">
-              {activeCourse ? "Classes" : "Select a Course"}
+            <div className="text-4xl font-black mb-2">
+              {!activeSession
+                ? activeCourse
+                  ? "Classes"
+                  : "Select a Course"
+                : activeSession.title}
             </div>
             {activeCourse ? (
               <>
-                <button
-                  className="mb-6 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-gray-700 transition"
-                  onClick={() => setActiveCourse(null)}
-                >
-                  ← Back to Courses
-                </button>
                 {activeSession ? (
-                  <SessionAttendees
-                    activeSession={activeSession}
-                    formatDate={formatDate}
-                    attendees={attendees}
-                    attendeesLoading={attendeesLoading}
-                    handleEndSession={handleEndSession}
-                    downloadCSV={downloadCSV}
-                    downloadingSession={downloadingSession}
-                    setActiveSession={setActiveSession}
-                  />
+                  <>
+                    <SessionAttendees
+                      activeSession={activeSession}
+                      formatDate={formatDate}
+                      attendees={attendees}
+                      attendeesLoading={attendeesLoading}
+                      handleEndSession={handleEndSession}
+                      downloadCSV={downloadCSV}
+                      downloadingSession={downloadingSession}
+                      setActiveSession={setActiveSession}
+                    />
+                  </>
                 ) : (
                   <SessionList
                     activeSessions={activeSessions}
@@ -715,7 +821,7 @@ const Home = () => {
               </>
             ) : (
               <>
-                <div className="text-gray-400 text-lg mb-6">
+                <div className="text-gray-400 text-xl mb-12">
                   Please select a course to view its classes.
                 </div>
                 <CourseList
@@ -759,6 +865,7 @@ const Home = () => {
           loading={loading}
         />
       </div>
+      {alert && <Alert type={alert.type} message={alert.message} />}
     </div>
   );
 };

@@ -10,11 +10,13 @@ const SessionList = ({
   downloadingAllSessions,
 }) => (
   <>
-    <div className="flex justify-between items-center mb-2">
-      <div className="font-semibold text-green-700">Active Sessions</div>
+    <div className="flex justify-between items-center mb-3">
+      <div className="font-semibold text-lg  text-green-700">
+        Active Sessions
+      </div>
       <button
         onClick={downloadAllSessionsCSV}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition flex items-center gap-2"
+        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2"
         disabled={downloadingAllSessions}
       >
         <svg
@@ -32,11 +34,11 @@ const SessionList = ({
         {downloadingAllSessions ? "Downloading…" : "Download All Sessions"}
       </button>
     </div>
-    <div className="flex flex-wrap gap-8 mb-2">
+    <div className="flex flex-wrap pl-7  gap-3 mb-10">
       {activeSessions.map((session) => (
         <div
           key={session.id}
-          className="w-48 h-16 bg-white border border-green-400 rounded-lg flex items-center justify-center shadow text-lg font-semibold cursor-pointer hover:bg-green-50 transition"
+          className="w-56 h-18 bg-white border border-green-400 rounded-lg flex items-center justify-center shadow text-lg font-semibold cursor-pointer hover:bg-green-50 transition"
           onClick={() => setActiveSession(session)}
         >
           {session.title}
@@ -45,19 +47,21 @@ const SessionList = ({
       {/* Add Session Card (only if no active session) */}
       {activeSessions.length === 0 && (
         <div
-          className="w-48 h-16 flex items-center justify-center border-2 border-indigo-200 bg-indigo-50 rounded-lg cursor-pointer text-4xl text-indigo-300 hover:bg-indigo-100 transition"
+          className="w-56 h-18 flex items-center justify-center border-2 border-gray-200 bg-gray-100 rounded-2xl cursor-pointer text-5xl leading-none text-white hover:bg-indigo-200 hover:border-indigo-400 transition"
           onClick={() => setShowSessionModal(true)}
         >
-          <span>+</span>
+          <span className="relative top-[-5px]">+</span>
         </div>
       )}
     </div>
-    <div className="mb-2 font-semibold text-gray-700">Inactive Sessions</div>
-    <div className="flex flex-wrap gap-8">
+    <div className="mb-3 font-semibold text-gray-700  text-lg">
+      Inactive Sessions
+    </div>
+    <div className="flex flex-wrap pl-7 mt-5 gap-3">
       {inactiveSessions.map((session) => (
         <div
           key={session.id}
-          className="w-48 h-16 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow text-lg font-semibold cursor-pointer hover:bg-gray-50 transition"
+          className="w-56 h-18 bg-white border-2  text-lg font-semibold text-gray-400 hover:text-gray-700 border-gray-200 rounded-2xl flex flex-col items-center justify-center shadow cursor-pointer  hover:bg-indigo-50 hover:border-indigo-300 transition-3d"
           onClick={() => setActiveSession(session)}
         >
           {session.title}

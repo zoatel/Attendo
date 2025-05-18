@@ -11,11 +11,11 @@ const BatchList = ({
   loading,
 }) => (
   <>
-    <div className="flex flex-wrap gap-8">
+    <div className="flex flex-wrap gap-3 ">
       {batches.map((batch) => (
         <div
           key={batch.id}
-          className="w-64 h-16 bg-white border border-gray-200 rounded-lg flex items-center justify-center shadow text-lg font-semibold cursor-pointer hover:bg-indigo-50 transition"
+          className="w-56 h-18 bg-white border-2  text-lg font-semibold text-gray-400 hover:text-gray-700 border-gray-200 rounded-2xl flex flex-col items-center justify-center shadow cursor-pointer  hover:bg-indigo-50 hover:border-indigo-300 transition-3d"
           onClick={() => setActiveBatch(batch)}
         >
           {batch.title}
@@ -23,21 +23,21 @@ const BatchList = ({
       ))}
       {/* Add Batch Card */}
       <div
-        className="w-64 h-16 flex items-center justify-center border-2 border-indigo-200 bg-indigo-50 rounded-lg cursor-pointer text-4xl text-indigo-300 hover:bg-indigo-100 transition"
+        className="w-56 h-18 flex items-center justify-center border-2 border-gray-200 bg-gray-100 rounded-2xl cursor-pointer text-5xl leading-none text-white hover:bg-indigo-200 hover:border-indigo-400 transition"
         onClick={() => setShowBatchModal(true)}
       >
-        <span>+</span>
+        <span className="relative top-[-5px]">+</span>
       </div>
     </div>
-    {/* Add Batch Modal */}
+    {/* Add Batch Modal
     {showBatchModal && (
-      <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)]  flex items-center justify-center z-50">
         <div className="bg-white rounded-xl p-8 w-full max-w-md relative">
           <button
-            className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-xl"
+            className="absolute top-4 right-5 text-gray-400 hover:text-gray-700 text-xl cursor-pointer"
             onClick={() => setShowBatchModal(false)}
           >
-            &times;
+            ❌
           </button>
           <h2 className="text-2xl font-bold text-center mb-6 text-indigo-600">
             Add New Batch
@@ -63,7 +63,7 @@ const BatchList = ({
           </form>
         </div>
       </div>
-    )}
+    )} */}
   </>
 );
 

@@ -7,6 +7,8 @@ const Input = ({
   autocomplete,
   placeholder,
   type = "text",
+  error,
+  onChange,
 }) => (
   <div className="mb-4">
     <label
@@ -21,7 +23,10 @@ const Input = ({
       type={type}
       autoComplete={autocomplete}
       required
-      className="transition-3d relative block w-full h-12 px-3 py-2 border-2 border-gray-300 placeholder-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-400 focus:border-indigo-400 focus:z-10 sm:text-lg"
+      onChange={(e) => onChange && onChange(id, e.target.value)}
+      className={`transition-3d relative block w-full h-12 px-3 py-2 border-2 ${
+        error ? "border-red-500" : "border-gray-300"
+      } placeholder-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-400 focus:border-indigo-400 focus:z-10 sm:text-lg`}
       placeholder={placeholder}
     />
   </div>

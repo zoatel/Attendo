@@ -11,18 +11,12 @@ const SessionAttendees = ({
   setActiveSession,
 }) => (
   <>
-    <button
-      className="mb-6 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-gray-700 transition"
-      onClick={() => setActiveSession(null)}
-    >
-      ← Back to Sessions
-    </button>
-    <div className="bg-white rounded-xl shadow p-8 max-w-3xl mx-auto">
+    <div className=" rounded-xl w-full h-[700px] shadow p-16 bg-white  mt-10">
       <div className="flex justify-between items-center mb-6">
-        <div className="text-2xl font-bold">Attendees</div>
+        <div className="text-3xl font-bold">Attendees</div>
         <button
           onClick={downloadCSV}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition flex items-center gap-2"
+          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2"
           disabled={downloadingSession}
         >
           <svg
@@ -40,7 +34,7 @@ const SessionAttendees = ({
           {downloadingSession ? "Downloading…" : "Download CSV"}
         </button>
       </div>
-      <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:gap-8 gap-2">
+      <div className="mb-4 flex flex-row justify-between">
         <div className="text-gray-700 text-sm">
           <span className="font-semibold">Created At:</span>{" "}
           {formatDate(activeSession.createdAt)}
@@ -55,28 +49,94 @@ const SessionAttendees = ({
       {attendeesLoading ? (
         <div>Loading attendees...</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border rounded shadow">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2">UID</th>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">MAC</th>
-                <th className="px-4 py-2">Recorded At</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attendees.map((att, idx) => (
-                <tr key={att.UID} className="border-t">
-                  <td className="px-4 py-2">{att.UID}</td>
-                  <td className="px-4 py-2">{att.name}</td>
-                  <td className="px-4 py-2">{att.MAC}</td>
-                  <td className="px-4 py-2">{att.recordedAt}</td>
+        <>
+          {/* <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <table className="min-w-full divide-y divide-gray-200 bg-white">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300"></th>
+                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300">
+                    UID
+                  </th>
+                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider border-r border-gray-300">
+                    MAC
+                  </th>
+                  <th className="px-6 py-3 text-center text-md font-bold text-gray-700 uppercase tracking-wider">
+                    Recorded At
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {attendees.map((att, idx) => (
+                  <tr key={att.UID} className="hover:bg-gray-100 transition-3d">
+                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                      {idx + 1}
+                    </td>
+                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                      {att.UID}
+                    </td>
+                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                      {att.name}
+                    </td>
+                    <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                      {att.MAC}
+                    </td>
+                    <td className="px-6 py-3 text-center text-md text-gray-500">
+                      {att.recordedAt}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div> */}
+          <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="max-h-[400px] overflow-y-auto">
+              <table className="min-w-full table-fixed divide-y divide-gray-200 bg-white">
+                <thead className="bg-gray-50 sticky top-0 z-10">
+                  <tr>
+                    <th className="px-6 py-3 text-center text-md font-bold text-gray-700  tracking-wider border-r border-gray-300 w-[50px]"></th>
+                    <th className="px-6 py-3 text-center text-md font-bold text-gray-700  tracking-wider border-r border-gray-300 w-[150px]">
+                      Student UID
+                    </th>
+                    <th className="px-6 py-3 text-center text-md font-bold text-gray-700  tracking-wider border-r border-gray-300 w-[200px]">
+                      Student Name
+                    </th>
+                    <th className="px-6 py-3 text-center text-md font-bold text-gray-700  tracking-wider border-r border-gray-300 w-[200px]">
+                      Student MAC
+                    </th>
+                    <th className="px-6 py-3 text-center text-md font-bold text-gray-700  tracking-wider border-r border-gray-300 w-[300px]">
+                      Recorded At
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {attendees.map((att, idx) => (
+                    <tr key={att.UID} className="hover:bg-gray-100 transition">
+                      <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                        {idx + 1}
+                      </td>
+                      <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                        {att.UID}
+                      </td>
+                      <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                        {att.name}
+                      </td>
+                      <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                        {att.MAC}
+                      </td>
+                      <td className="px-6 py-3 text-center text-md text-gray-700 border-r border-gray-300">
+                        {att.recordedAt}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
       )}
       {activeSession.active && (
         <div className="flex justify-end mt-8">

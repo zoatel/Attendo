@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import BG from "../components/BG";
 import Input from "../components/Input";
 import Logo from "../components/Logo";
 import SignBtn from "../components/SignBtn";
+import Alert from "../components/Alert";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useUser } from "../App";
 
 const Login = () => {
+  const [alert, setAlert] = useState(null);
+  const [errorField, setErrorField] = useState({
+    fullname: false,
+    email: false,
+    password: false,
+    confirm: false,
+  });
+
   const navigate = useNavigate();
   const user = useUser();
 
@@ -20,7 +29,7 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/home");
     } catch (error) {
-      alert(error.message);
+      setAlert({ type: "error", message: error.message });
     }
   };
 
@@ -28,10 +37,16 @@ const Login = () => {
     await signOut(auth);
     navigate("/");
   };
+  useEffect(() => {
+    if (alert) {
+      const timer = setTimeout(() => setAlert(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
 
   return (
-    <div className="w-full h-screen flex flex-col p-4 sm:p-16 py-24 sm:py-44 items-center relative bg-[#f5f6fb]">
-      <BG />
+    <div className="overflow-clip w-full h-screen flex flex-col p-4 sm:p-16 py-24 sm:py-44 items-center relative bg-[#f5f6fb]">
+      <BG page={"login"} />
       <div className="w-full max-w-sm z-10">
         <Logo />
         <h2 className="text-center text-xl text-gray-400 mt-4">
@@ -73,6 +88,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {alert && <Alert type={alert.type} message={alert.message} />}
     </div>
   );
 };

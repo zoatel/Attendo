@@ -359,12 +359,6 @@ const Home = () => {
         body: JSON.stringify(payload),
       });
       const data = await response.json();
-      alert(
-        data.message ||
-          (data.success
-            ? "Session created successfully"
-            : "Failed to create session")
-      );
       setAlert({
         type: data.success ? "success" : "error",
         message:
@@ -377,7 +371,6 @@ const Home = () => {
       setSessionForm({ title: "" });
       setSessionsRefresh((r) => r + 1);
     } catch (err) {
-      alert("Error creating session: " + err.message);
       setAlert({
         type: "error",
         message: "Error creating session: " + err.message,

@@ -101,6 +101,14 @@ Attendo is designed to minimize costs by:
 
 ## Screenshots
 
+<img width="1200" height="568" alt="Picture1" src="https://github.com/user-attachments/assets/d30b5253-1735-4074-997b-956a57f02748" />
+<img width="1198" height="566" alt="Picture2" src="https://github.com/user-attachments/assets/67baceb2-f0c6-456c-96af-8c22377e069e" />
+<img width="1179" height="555" alt="Picture3" src="https://github.com/user-attachments/assets/84703bb2-f9b4-4f91-ac0d-027bcaa3514b" />
+<img width="1165" height="548" alt="Picture4" src="https://github.com/user-attachments/assets/32fb2bed-caa6-4603-a602-4fbae17a8b7d" />
+![Picture5](https://github.com/user-attachments/assets/1d7c92c1-c56e-4214-bff3-431d1c59562c)
+![Picture6](https://github.com/user-attachments/assets/85e3bca2-b1e4-45ea-a7c9-7edbf946a97c)
+
+
 ## Contributing
 
 Contributions are welcome! Please open issues or submit pull requests to help improve Attendo.
